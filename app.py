@@ -113,7 +113,8 @@ def run_rsa():
                 preexec_fn=os.setsid
             )
             
-            # Send message to server
+            # Send mode identifier and message to server
+            current_process.stdin.write("MODE:RSA\n")
             current_process.stdin.write("Hi, how are you\n")
             current_process.stdin.flush()
             
@@ -227,7 +228,8 @@ def run_pqc():
                 preexec_fn=os.setsid
             )
             
-            # Send message to server
+            # Send mode identifier and message to server
+            current_process.stdin.write("MODE:PQC\n")
             current_process.stdin.write("Hi, how are you\n")
             current_process.stdin.flush()
             
@@ -340,7 +342,8 @@ def run_hybrid():
                 preexec_fn=os.setsid
             )
             
-            # Send message to server
+            # Send mode identifier and message to server
+            current_process.stdin.write("MODE:HYBRID\n")
             current_process.stdin.write("Hi, how are you\n")
             current_process.stdin.flush()
             
