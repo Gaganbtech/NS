@@ -35,9 +35,7 @@ def print_connection_start():
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("\n" + "=" * 80)
     print(f"🔌 NEW CONNECTION ESTABLISHED - {timestamp}")
-    print("=" * 80)
-    print("⏳ Analyzing encryption method...")
-    print()
+    print("=" * 80 + "\n")
 
 def print_key_exchange(key_type):
     print("\n" + "🔑 " + "=" * 76)
