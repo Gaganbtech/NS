@@ -434,51 +434,27 @@ def get_comparison():
 
 @app.route('/check_server', methods=['GET'])
 def check_server():
-    """Check if TLS server is running using OpenSSL"""
+    """Check if TLS server is running using simple TCP connection"""
+    import socket
+    
     try:
-        # Use openssl s_client with -brief flag for quick check
-        cmd = [
-            'openssl', 's_client',
-            '-connect', f'{SERVER_HOST}:{SERVER_PORT}',
-            '-brief'
-        ]
+        # Use simple TCP socket check instead of OpenSSL
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(2)
+        result = sock.connect_ex((SERVER_HOST, int(SERVER_PORT)))
+        sock.close()
         
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=5,
-            input='Q\n'
-        )
-        
-        output = result.stdout + result.stderr
-        
-        # Check for successful connection indicators
-        # Look for "Cipher" or "Protocol" which indicate successful TLS handshake
-        if 'Cipher' in output or 'Protocol' in output:
-            # Self-signed certificate warnings (verify return code 18 or 19) are OK
-            # These should NOT be treated as failures
+        if result == 0:
             return jsonify({
                 'status': 'success',
                 'message': f'Server {SERVER_HOST}:{SERVER_PORT} is reachable'
             })
         else:
-            # Connection failed
             return jsonify({
                 'status': 'failed',
-                'message': f'Server {SERVER_HOST}:{SERVER_PORT} is not responding or TLS handshake failed'
+                'message': f'Server {SERVER_HOST}:{SERVER_PORT} is not responding'
             })
             
-    except subprocess.TimeoutExpired:
-        return jsonify({
-            'status': 'failed',
-            'message': f'Connection timeout - server {SERVER_HOST}:{SERVER_PORT} not responding'
-        })
-    except FileNotFoundError:
-        return jsonify({
-            'status': 'failed',
-            'message': 'OpenSSL not found. Please install OpenSSL.'
-        })
     except Exception as e:
         return jsonify({
             'status': 'failed',
