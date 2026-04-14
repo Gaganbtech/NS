@@ -113,7 +113,14 @@ def run_rsa():
                 preexec_fn=os.setsid
             )
             
-            # Send quit command after connection
+            # Send message to server
+            current_process.stdin.write("Hi, how are you\n")
+            current_process.stdin.flush()
+            
+            # Wait a moment for message to be sent
+            time.sleep(0.5)
+            
+            # Send quit command
             current_process.stdin.write("Q\n")
             current_process.stdin.flush()
             
@@ -220,6 +227,13 @@ def run_pqc():
                 preexec_fn=os.setsid
             )
             
+            # Send message to server
+            current_process.stdin.write("Hi, how are you\n")
+            current_process.stdin.flush()
+            
+            # Wait a moment for message to be sent
+            time.sleep(0.5)
+            
             # Send quit command
             current_process.stdin.write("Q\n")
             current_process.stdin.flush()
@@ -325,6 +339,13 @@ def run_hybrid():
                 text=True,
                 preexec_fn=os.setsid
             )
+            
+            # Send message to server
+            current_process.stdin.write("Hi, how are you\n")
+            current_process.stdin.flush()
+            
+            # Wait a moment for message to be sent
+            time.sleep(0.5)
             
             # Send quit command
             current_process.stdin.write("Q\n")
