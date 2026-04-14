@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Simple TLS Server - Just show connections and messages
+# Simple TLS Server - Show encrypted and decrypted messages
 
 echo "================================================================================"
-echo "  🔐 TLS SERVER - LISTENING ON PORT 4433"
+echo "  🔐 TLS SERVER - MESSAGE DISPLAY"
 echo "================================================================================"
 echo ""
-echo "  Waiting for connections from Kali..."
-echo "  Check the Kali dashboard to see which mode is being used!"
+echo "  Listening on port 4433..."
+echo "  Showing encrypted and decrypted messages"
 echo ""
 echo "================================================================================"
 echo ""
@@ -22,8 +22,6 @@ while true; do
     echo "🔌 CONNECTION #$CONNECTION_NUM - $(date '+%Y-%m-%d %H:%M:%S')"
     echo "================================================================================"
     echo ""
-    echo "📡 Receiving data..."
-    echo ""
     
     # Start server and capture output
     timeout 10 openssl s_server \
@@ -33,49 +31,36 @@ while true; do
         -quiet \
         2>&1 | while IFS= read -r line; do
         
-        # Show received data
         if [ ! -z "$line" ]; then
-            echo "📨 Received: $line"
-            
-            # Check for mode indicators
-            if echo "$line" | grep -qi "MODE:RSA"; then
+            # Check for mode identifier
+            if echo "$line" | grep -q "MODE:RSA"; then
+                echo "🔐 ENCRYPTION MODE: RSA (Classical)"
+                echo "📦 ENCRYPTED: [Binary TLS encrypted data]"
+                echo "🔓 DECRYPTED: MODE:RSA"
                 echo ""
-                echo "🔐 ============================================================================"
-                echo "   ENCRYPTION MODE: RSA (CLASSICAL)"
-                echo "   Security: ⭐ MEDIUM"
-                echo "============================================================================"
+            elif echo "$line" | grep -q "MODE:PQC"; then
+                echo "🛡️  ENCRYPTION MODE: PQC (Post-Quantum)"
+                echo "📦 ENCRYPTED: [Binary TLS encrypted data]"
+                echo "🔓 DECRYPTED: MODE:PQC"
                 echo ""
-            elif echo "$line" | grep -qi "MODE:PQC"; then
-                echo ""
-                echo "🛡️  ============================================================================"
-                echo "   ENCRYPTION MODE: PQC (POST-QUANTUM)"
-                echo "   Security: ⭐⭐ HIGH"
-                echo "============================================================================"
-                echo ""
-            elif echo "$line" | grep -qi "MODE:HYBRID"; then
-                echo ""
-                echo "🔥 ============================================================================"
-                echo "   ENCRYPTION MODE: HYBRID"
-                echo "   Security: ⭐⭐⭐ MAXIMUM"
-                echo "============================================================================"
+            elif echo "$line" | grep -q "MODE:HYBRID"; then
+                echo "🔥 ENCRYPTION MODE: HYBRID (Classical + PQC)"
+                echo "📦 ENCRYPTED: [Binary TLS encrypted data]"
+                echo "🔓 DECRYPTED: MODE:HYBRID"
                 echo ""
             fi
             
             # Check for message
             if echo "$line" | grep -q "Hi, how are you"; then
-                echo ""
-                echo "💬 ============================================================================"
-                echo "   MESSAGE RECEIVED: Hi, how are you"
-                echo "============================================================================"
+                echo "📦 ENCRYPTED: [Binary TLS encrypted data]"
+                echo "🔓 DECRYPTED: Hi, how are you"
                 echo ""
             fi
         fi
     done
     
-    echo ""
     echo "✅ Connection closed"
     echo ""
     
-    # Small delay before accepting next connection
     sleep 0.5
 done
