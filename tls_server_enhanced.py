@@ -33,9 +33,11 @@ def print_separator():
 
 def print_connection_start():
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print("=" * 80)
+    print("\n" + "=" * 80)
     print(f"🔌 NEW CONNECTION ESTABLISHED - {timestamp}")
     print("=" * 80)
+    print("⏳ Analyzing encryption method...")
+    print()
 
 def print_key_exchange(key_type):
     print("\n" + "🔑 " + "=" * 76)
@@ -111,23 +113,38 @@ def main():
         
         connection_started = False
         message_buffer = []
+        current_connection_info = {}
         
         for line in process.stdout:
             line = line.strip()
             
             # Detect new connection
-            if "SSL_accept:before SSL initialization" in line:
-                if connection_started:
+            if "SSL_accept:before SSL initialization" in line or "ACCEPT" in line:
+                if connection_started and current_connection_info:
+                    # Print summary of previous connection
                     print_separator()
                 print_connection_start()
                 connection_started = True
                 message_buffer = []
+                current_connection_info = {}
+            
+            # Detect supported groups (key exchange methods)
+            elif "supported_groups" in line.lower() or "key_share" in line.lower():
+                # Extract group information
+                if "mlkem768" in line.lower() and "x25519" in line.lower():
+                    current_connection_info['mode'] = 'HYBRID'
+                elif "mlkem768" in line.lower():
+                    current_connection_info['mode'] = 'PQC'
+                elif "x25519" in line.lower():
+                    current_connection_info['mode'] = 'RSA'
             
             # Detect key exchange
             elif "Server Temp Key:" in line:
                 key_match = re.search(r'Server Temp Key:\s*(.+)', line)
                 if key_match:
-                    print_key_exchange(key_match.group(1))
+                    key_type = key_match.group(1)
+                    current_connection_info['key_exchange'] = key_type
+                    print_key_exchange(key_type)
             
             # Detect cipher
             elif line.startswith("Cipher") and ":" in line:
