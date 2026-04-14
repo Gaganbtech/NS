@@ -1,0 +1,10 @@
+# Post-Quantum Cryptography TLS Dashboard
+# Python Dependencies
+
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Optional: For enhanced features
+# requests==2.31.0  # For HTTP client testing
+# python-dotenv==1.0.0  # For environment configuration

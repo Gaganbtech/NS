@@ -1,0 +1,236 @@
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║           🚀 ENHANCED DASHBOARD - QUICK START GUIDE 🚀                        ║
+║                                                                               ║
+║              Advanced Metrics & Real-time Visualization                       ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+✨ 10 NEW FEATURES ADDED
+═══════════════════════════════════════════════════════════════════════════════
+
+1. ✅ TLS Handshake Details Panel    - Parse TLS version, cipher, key exchange
+2. ✅ Execution Time Metric           - Measure command execution time
+3. ✅ Packet Size Estimation          - Calculate output size in bytes
+4. ✅ Security Level Indicator        - Color-coded badges (Medium/High/Very High)
+5. ✅ Real-time Comparison Table      - Side-by-side mode comparison
+6. ✅ Chart.js Visualization          - 3 interactive charts
+7. ✅ Real-time Status Log            - Timestamped action log
+8. ✅ Wireshark Guide Button          - Step-by-step packet analysis guide
+9. ✅ Enhanced Frontend               - Chart.js, Fetch API, responsive design
+10. ✅ Enhanced Backend               - Regex parsing, timing, rich JSON
+
+═══════════════════════════════════════════════════════════════════════════════
+🚀 QUICK START (3 STEPS)
+═══════════════════════════════════════════════════════════════════════════════
+
+STEP 1: Enable Enhanced Version
+    ./enable_enhanced.sh
+
+STEP 2: Start Servers
+    Terminal 1: cd scripts && ./start_server.sh
+    Terminal 2: python3 app.py
+
+STEP 3: Open Browser
+    http://localhost:5000
+
+═══════════════════════════════════════════════════════════════════════════════
+📊 WHAT YOU'LL SEE
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 🔐 Post-Quantum Cryptography TLS Dashboard                                  │
+│ Advanced Metrics & Real-time Comparison Analysis                            │
+│                                                          Server Status: ● On │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Target Server: [192.168.0.104]  Port: [4433]                               │
+│ [Update Config] [Check Server] [🔍 Wireshark Guide]                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 🎯 Select Cryptographic Mode                                                │
+│                                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                     │
+│  │   🔑 RSA     │  │  🛡️ PQC      │  │  ⚡ Hybrid   │                     │
+│  │  Classical   │  │  MLKEM768    │  │  X25519+     │                     │
+│  │     TLS      │  │  (Kyber)     │  │  MLKEM768    │                     │
+│  └──────────────┘  └──────────────┘  └──────────────┘                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 🔐 TLS Handshake Details      │ ⏱ Performance Metrics                      │
+│ Version:      TLSv1.3          │ Execution Time: 1.234 seconds             │
+│ Cipher:       TLS_AES_256...   │ Packet Size:    3456 bytes                │
+│ Key Exchange: X25519, 253 bits │ Security Level: ⚠️ Medium                 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📋 Real-time Status Log                                          [Clear]    │
+│ [17:30:45] [INFO] Starting RSA TLS connection test...                      │
+│ [17:30:46] [SUCCESS] RSA connection established successfully                │
+│ [17:30:46] [INFO] Execution time: 1.234s, Packet size: 3456 bytes          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📊 Real-time Comparison Table                                               │
+│ ┌──────────┬──────────┬──────────┬──────────────┬─────────────────────┐   │
+│ │ Mode     │ Time     │ Size     │ Security     │ Key Exchange        │   │
+│ ├──────────┼──────────┼──────────┼──────────────┼─────────────────────┤   │
+│ │ RSA      │ 1.234 s  │ 3456 b   │ Medium ⚠️    │ X25519              │   │
+│ │ PQC      │ 1.456 s  │ 4567 b   │ High ✅      │ MLKEM768            │   │
+│ │ Hybrid   │ 1.678 s  │ 5678 b   │ Very High 🔥 │ X25519MLKEM768      │   │
+│ └──────────┴──────────┴──────────┴──────────────┴─────────────────────┘   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📈 Performance Visualization                                                │
+│                                                                              │
+│  Execution Time        Packet Size           Security Level                │
+│  ┌──────────────┐     ┌──────────────┐      ┌──────────────┐             │
+│  │ █ RSA        │     │ █ RSA        │      │   ╱───╲      │             │
+│  │ ██ PQC       │     │ ██ PQC       │      │  │ 🔥  │     │             │
+│  │ ███ Hybrid   │     │ ███ Hybrid   │      │  │ ✅  │     │             │
+│  └──────────────┘     └──────────────┘      │  │ ⚠️   │     │             │
+│                                              │   ╲───╱      │             │
+│                                              └──────────────┘             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Last Mode: Hybrid (X25519 + MLKEM768)  Connection: Success  Time: 17:30:46 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 📟 OpenSSL Output                                               [Clear]     │
+│ ╔═══════════════════════════════════════════════════════════════════════╗  │
+│ ║  Starting HYBRID TLS Connection Test                                 ║  │
+│ ║  Target: 192.168.0.104:4433                                          ║  │
+│ ╚═══════════════════════════════════════════════════════════════════════╝  │
+│                                                                              │
+│ CONNECTED(00000003)                                                          │
+│ Cipher    : TLS_AES_256_GCM_SHA384                                          │
+│ Protocol  : TLSv1.3                                                         │
+│ Server Temp Key: X25519MLKEM768                                             │
+│                                                                              │
+│ 📊 KEY INFORMATION EXTRACTED:                                               │
+│ ────────────────────────────────────────────────────────────────────────    │
+│ 🔐 Cipher Suite: TLS_AES_256_GCM_SHA384                                    │
+│ 📡 Protocol: TLSv1.3                                                        │
+│ 🔑 Key Exchange: X25519MLKEM768                                             │
+│ ⏱  Execution Time: 1.678 seconds                                            │
+│ 📦 Packet Size: 5678 bytes                                                  │
+│ 🔥 Security Level: Very High                                                │
+│ ✅ Hybrid Mode: DETECTED (Classical + PQC)                                  │
+│ ────────────────────────────────────────────────────────────────────────    │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+🎯 TESTING WORKFLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Click "RSA" button
+   → Watch metrics update
+   → See blue bar in charts
+   → Check comparison table
+
+2. Click "PQC" button
+   → Compare with RSA
+   → See green bar in charts
+   → Notice larger packet size
+
+3. Click "Hybrid" button
+   → Compare with both
+   → See orange bar in charts
+   → Observe highest security
+
+4. Click "🔍 Wireshark Guide"
+   → Read packet analysis steps
+   → Follow instructions
+   → Compare with dashboard metrics
+
+═══════════════════════════════════════════════════════════════════════════════
+📊 KEY METRICS EXPLAINED
+═══════════════════════════════════════════════════════════════════════════════
+
+EXECUTION TIME
+  What: Time from command start to completion
+  RSA:    ~1.2 seconds (fastest)
+  PQC:    ~1.5 seconds (moderate)
+  Hybrid: ~1.7 seconds (slowest)
+  Why: Larger keys = more processing
+
+PACKET SIZE
+  What: Total bytes in OpenSSL output
+  RSA:    ~3,000 bytes (smallest)
+  PQC:    ~4,500 bytes (larger)
+  Hybrid: ~5,500 bytes (largest)
+  Why: PQC keys are 1184 bytes vs RSA 256 bytes
+
+SECURITY LEVEL
+  RSA:    Medium ⚠️  (vulnerable to quantum)
+  PQC:    High ✅    (quantum-resistant)
+  Hybrid: Very High 🔥 (double protection)
+
+═══════════════════════════════════════════════════════════════════════════════
+🔍 WIRESHARK INTEGRATION
+═══════════════════════════════════════════════════════════════════════════════
+
+1. Start Wireshark:     sudo wireshark
+2. Apply Filter:        tls or tcp.port == 4433
+3. Run Test:            Click RSA/PQC/Hybrid button
+4. Analyze Packets:     Client Hello, Server Hello, Key Exchange
+5. Compare Sizes:       RSA < PQC < Hybrid
+6. Verify Key Exchange: X25519 vs MLKEM768 vs X25519MLKEM768
+
+═══════════════════════════════════════════════════════════════════════════════
+🐛 TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Charts not showing?
+  → Check browser console (F12)
+  → Verify Chart.js CDN is accessible
+  → Hard refresh: Ctrl+Shift+R
+
+Metrics not updating?
+  → Verify enhanced files are active
+  → Check Flask logs for errors
+  → Restart Flask server
+
+Comparison table empty?
+  → Run at least one test
+  → Check JavaScript console
+  → Verify testResults object
+
+═══════════════════════════════════════════════════════════════════════════════
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════════
+
+ENHANCEMENT_COMPLETE.md  - Complete enhancement summary
+ENHANCED_FEATURES.md     - Detailed feature documentation
+README.md                - Main project documentation
+DEMO_GUIDE.md            - Presentation guide
+
+═══════════════════════════════════════════════════════════════════════════════
+✅ SUCCESS CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
+
+□ Enhanced files enabled (./enable_enhanced.sh)
+□ TLS server running (./scripts/start_server.sh)
+□ Flask server running (python3 app.py)
+□ Browser open (http://localhost:5000)
+□ Server status shows "Online"
+□ All three modes tested
+□ TLS details displaying
+□ Performance metrics showing
+□ Charts updating dynamically
+□ Comparison table populated
+□ Log entries appearing
+□ Wireshark guide opens
+□ No console errors
+
+═══════════════════════════════════════════════════════════════════════════════
+🎉 YOU'RE READY!
+═══════════════════════════════════════════════════════════════════════════════
+
+Your enhanced dashboard now provides:
+
+✅ Professional metrics visualization
+✅ Real-time performance comparison
+✅ Interactive Chart.js graphs
+✅ Comprehensive TLS analysis
+✅ Industry-grade security tool
+
+Start testing and impress your audience! 📊✨🔐
+
+═══════════════════════════════════════════════════════════════════════════════
+
+For detailed instructions: ENHANCED_FEATURES.md
+For quick help: ./enable_enhanced.sh --help
+
+Status: ✅ ENHANCED & READY FOR DEMONSTRATION

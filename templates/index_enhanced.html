@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQC TLS Dashboard - Advanced Metrics & Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🔐 Post-Quantum Cryptography TLS Dashboard</h1>
+                <p class="subtitle">Advanced Metrics & Real-time Comparison Analysis</p>
+            </div>
+            <div class="server-status">
+                <span class="status-label">Server Status:</span>
+                <span id="serverStatus" class="status-indicator status-unknown">●</span>
+                <span id="serverStatusText">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Configuration Panel -->
+        <div class="config-panel">
+            <div class="config-item">
+                <label>Target Server:</label>
+                <input type="text" id="serverHost" value="192.168.0.104" placeholder="IP Address">
+            </div>
+            <div class="config-item">
+                <label>Port:</label>
+                <input type="text" id="serverPort" value="4433" placeholder="Port">
+            </div>
+            <button class="btn-config" onclick="updateConfig()">Update Config</button>
+            <button class="btn-config" onclick="checkServer()">Check Server</button>
+            <button class="btn-config btn-wireshark" onclick="showWiresharkGuide()">🔍 Wireshark Guide</button>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h2>🎯 Select Cryptographic Mode</h2>
+            <div class="button-grid">
+                <button class="btn btn-rsa" onclick="runTest('rsa')">
+                    <div class="btn-icon">🔑</div>
+                    <div class="btn-title">RSA</div>
+                    <div class="btn-subtitle">Classical TLS</div>
+                    <div class="btn-description">Traditional RSA key exchange<br>Vulnerable to quantum attacks</div>
+                </button>
+
+                <button class="btn btn-pqc" onclick="runTest('pqc')">
+                    <div class="btn-icon">🛡️</div>
+                    <div class="btn-title">PQC</div>
+                    <div class="btn-subtitle">MLKEM768 (Kyber)</div>
+                    <div class="btn-description">Post-quantum key encapsulation<br>Quantum-resistant security</div>
+                </button>
+
+                <button class="btn btn-hybrid" onclick="runTest('hybrid')">
+                    <div class="btn-icon">⚡</div>
+                    <div class="btn-title">Hybrid</div>
+                    <div class="btn-subtitle">X25519 + MLKEM768</div>
+                    <div class="btn-description">Combined classical + PQC<br>Maximum security</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- TLS Details Panel -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>🔐 TLS Handshake Details</h3>
+                <div class="metric-content">
+                    <div class="metric-item">
+                        <span class="metric-label">Version:</span>
+                        <span id="tlsVersion" class="metric-value">-</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cipher:</span>
+                        <span id="tlsCipher" class="metric-value">-</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Key Exchange:</span>
+                        <span id="tlsKeyExchange" class="metric-value">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <h3>⏱ Performance Metrics</h3>
+                <div class="metric-content">
+                    <div class="metric-item">
+                        <span class="metric-label">Execution Time:</span>
+                        <span id="executionTime" class="metric-value">-</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Packet Size:</span>
+                        <span id="packetSize" class="metric-value">-</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Security Level:</span>
+                        <span id="securityLevel" class="metric-value">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-time Status Log -->
+        <div class="log-panel">
+            <div class="log-header">
+                <span class="log-title">📋 Real-time Status Log</span>
+                <button class="btn-clear-log" onclick="clearLog()">Clear Log</button>
+            </div>
+            <div id="statusLog" class="log-content">
+                <div class="log-entry log-info">[INFO] Dashboard initialized. Ready to test TLS connections.</div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-panel">
+            <h3>📊 Real-time Comparison Table</h3>
+            <div class="table-container">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>Execution Time</th>
+                            <th>Packet Size</th>
+                            <th>Security Level</th>
+                            <th>Key Exchange</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparisonTableBody">
+                        <tr>
+                            <td colspan="5" class="no-data">Run tests to see comparison data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <h3>📈 Performance Visualization</h3>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h4>Execution Time Comparison</h4>
+                    <canvas id="timeChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Packet Size Comparison</h4>
+                    <canvas id="sizeChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Security Level Overview</h4>
+                    <canvas id="securityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Last Mode:</span>
+                <span id="lastMode" class="status-value">None</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Connection:</span>
+                <span id="connectionStatus" class="status-value status-idle">Idle</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Timestamp:</span>
+                <span id="timestamp" class="status-value">-</span>
+            </div>
+        </div>
+
+        <!-- Output Terminal -->
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="terminal-title">📟 OpenSSL Output</span>
+                <button class="btn-clear" onclick="clearOutput()">Clear</button>
+            </div>
+            <div id="terminal" class="terminal">
+                <div class="terminal-welcome">
+                    <pre>
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║              POST-QUANTUM CRYPTOGRAPHY TLS ANALYZER - ENHANCED                ║
+║                                                                               ║
+║  Advanced Features:                                                           ║
+║    • Real-time TLS handshake details extraction                              ║
+║    • Performance metrics (execution time, packet size)                       ║
+║    • Security level indicators                                               ║
+║    • Live comparison charts (Chart.js)                                       ║
+║    • Real-time status logging                                                ║
+║                                                                               ║
+║  Select a mode above to begin testing...                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Establishing TLS connection...</div>
+        </div>
+
+        <!-- Wireshark Guide Modal -->
+        <div id="wiresharkModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🔍 Wireshark Proof Guide</h2>
+                    <button class="modal-close" onclick="closeWiresharkGuide()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h3>How to Capture and Analyze TLS Traffic</h3>
+                    
+                    <div class="guide-step">
+                        <h4>Step 1: Start Wireshark</h4>
+                        <pre>sudo wireshark</pre>
+                        <p>Launch Wireshark with administrator privileges</p>
+                    </div>
+
+                    <div class="guide-step">
+                        <h4>Step 2: Select Network Interface</h4>
+                        <p>Choose the interface where traffic flows (e.g., <code>lo</code> for localhost, <code>eth0</code> for network)</p>
+                    </div>
+
+                    <div class="guide-step">
+                        <h4>Step 3: Apply TLS Filter</h4>
+                        <pre>tls</pre>
+                        <p>Or for specific port:</p>
+                        <pre>tcp.port == 4433</pre>
+                    </div>
+
+                    <div class="guide-step">
+                        <h4>Step 4: Run TLS Test</h4>
+                        <p>Click RSA, PQC, or Hybrid button in this dashboard</p>
+                    </div>
+
+                    <div class="guide-step">
+                        <h4>Step 5: Analyze Packets</h4>
+                        <ul>
+                            <li><strong>Client Hello:</strong> Check supported cipher suites and groups</li>
+                            <li><strong>Server Hello:</strong> See selected cipher and key exchange</li>
+                            <li><strong>Packet Length:</strong> Compare RSA vs PQC vs Hybrid sizes</li>
+                            <li><strong>Key Exchange:</strong> Look for MLKEM768 or X25519MLKEM768</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-step">
+                        <h4>Step 6: Compare Results</h4>
+                        <table class="guide-table">
+                            <tr>
+                                <th>Mode</th>
+                                <th>Expected Key Exchange</th>
+                                <th>Packet Size</th>
+                            </tr>
+                            <tr>
+                                <td>RSA</td>
+                                <td>X25519 or RSA</td>
+                                <td>~2-3 KB</td>
+                            </tr>
+                            <tr>
+                                <td>PQC</td>
+                                <td>MLKEM768</td>
+                                <td>~4-5 KB (larger)</td>
+                            </tr>
+                            <tr>
+                                <td>Hybrid</td>
+                                <td>X25519MLKEM768</td>
+                                <td>~5-6 KB (largest)</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="guide-note">
+                        <strong>Note:</strong> PQC and Hybrid modes require OQS-enabled OpenSSL. 
+                        Install using: <code>./scripts/setup_oqs.sh</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Network Security Project - Post-Quantum Cryptography Readiness Analysis</p>
+            <p>Enhanced with Advanced Metrics, Real-time Comparison & Chart.js Visualization</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script_enhanced.js') }}"></script>
+</body>
+</html>

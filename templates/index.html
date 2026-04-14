@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQC TLS Dashboard - Quantum-Safe Communication Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🔐 Post-Quantum Cryptography TLS Dashboard</h1>
+                <p class="subtitle">Real-world OpenSSL/OQS Integration for Quantum-Safe Communication</p>
+            </div>
+            <div class="server-status">
+                <span class="status-label">Server Status:</span>
+                <span id="serverStatus" class="status-indicator status-unknown">●</span>
+                <span id="serverStatusText">Checking...</span>
+            </div>
+        </header>
+
+        <!-- Configuration Panel -->
+        <div class="config-panel">
+            <div class="config-item">
+                <label>Target Server:</label>
+                <input type="text" id="serverHost" value="192.168.0.104" placeholder="IP Address">
+            </div>
+            <div class="config-item">
+                <label>Port:</label>
+                <input type="text" id="serverPort" value="4433" placeholder="Port">
+            </div>
+            <button class="btn-config" onclick="updateConfig()">Update Config</button>
+            <button class="btn-config" onclick="checkServer()">Check Server</button>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <h2>🎯 Select Cryptographic Mode</h2>
+            <div class="button-grid">
+                <button class="btn btn-rsa" onclick="runTest('rsa')">
+                    <div class="btn-icon">🔑</div>
+                    <div class="btn-title">RSA</div>
+                    <div class="btn-subtitle">Classical TLS</div>
+                    <div class="btn-description">Traditional RSA key exchange<br>Vulnerable to quantum attacks</div>
+                </button>
+
+                <button class="btn btn-pqc" onclick="runTest('pqc')">
+                    <div class="btn-icon">🛡️</div>
+                    <div class="btn-title">PQC</div>
+                    <div class="btn-subtitle">MLKEM768 (Kyber)</div>
+                    <div class="btn-description">Post-quantum key encapsulation<br>Quantum-resistant security</div>
+                </button>
+
+                <button class="btn btn-hybrid" onclick="runTest('hybrid')">
+                    <div class="btn-icon">⚡</div>
+                    <div class="btn-title">Hybrid</div>
+                    <div class="btn-subtitle">X25519 + MLKEM768</div>
+                    <div class="btn-description">Combined classical + PQC<br>Maximum security</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <div class="status-item">
+                <span class="status-label">Last Mode:</span>
+                <span id="lastMode" class="status-value">None</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Connection:</span>
+                <span id="connectionStatus" class="status-value status-idle">Idle</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Timestamp:</span>
+                <span id="timestamp" class="status-value">-</span>
+            </div>
+        </div>
+
+        <!-- Output Terminal -->
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <span class="terminal-title">📟 OpenSSL Output</span>
+                <button class="btn-clear" onclick="clearOutput()">Clear</button>
+            </div>
+            <div id="terminal" class="terminal">
+                <div class="terminal-welcome">
+                    <pre>
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                  POST-QUANTUM CRYPTOGRAPHY TLS ANALYZER                       ║
+║                                                                               ║
+║  This dashboard demonstrates real-world TLS connections using:               ║
+║    • RSA (Classical) - Traditional public key cryptography                   ║
+║    • MLKEM768 (PQC) - NIST-standardized post-quantum algorithm               ║
+║    • Hybrid Mode - Combined classical + quantum-resistant security           ║
+║                                                                               ║
+║  Select a mode above to begin testing...                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Establishing TLS connection...</div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel">
+            <h3>📚 Quick Reference</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>RSA (Classical)</h4>
+                    <p>Traditional TLS using RSA key exchange. Fast and widely supported, but vulnerable to Shor's algorithm on quantum computers.</p>
+                </div>
+                <div class="info-card">
+                    <h4>MLKEM768 (PQC)</h4>
+                    <p>NIST-standardized Module-Lattice-based Key Encapsulation Mechanism. Provides quantum-resistant security based on hard lattice problems.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Hybrid Mode</h4>
+                    <p>Combines X25519 (ECDH) with MLKEM768. Provides security against both classical and quantum attacks. Recommended for production.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Network Security Project - Post-Quantum Cryptography Readiness Analysis</p>
+            <p>Built with OpenSSL, OQS, Flask | Real-world TLS Communication</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

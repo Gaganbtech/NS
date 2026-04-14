@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment
+.env
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Certificates (keep structure, ignore actual certs in production)
+# certs/*.key
+# certs/*.crt
+# certs/*.csr
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+
+# OQS build directory
+oqs-build/
+
+# Wireshark captures
+*.pcap
+*.pcapng
