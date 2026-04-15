@@ -290,22 +290,36 @@ def run_pqc():
             })
             
         except FileNotFoundError:
+            security = get_security_level('pqc')
             return jsonify({
                 'status': 'failed',
                 'output': 'ERROR: OpenSSL with OQS support not found.\n\nYou need OQS-enabled OpenSSL for Post-Quantum Cryptography.\n\nInstallation:\n  See: https://github.com/open-quantum-safe/openssl\n  Or use the setup script: ./scripts/setup_oqs.sh',
                 'mode': 'PQC (MLKEM768/Kyber)',
                 'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
                 'execution_time': 0,
-                'packet_size': 0
+                'packet_size': 0,
+                'tls_version': 'Unknown',
+                'cipher': 'Unknown',
+                'key_exchange': 'Unknown',
+                'security_level': security['level'],
+                'security_icon': security['icon'],
+                'security_color': security['color']
             })
         except Exception as e:
+            security = get_security_level('pqc')
             return jsonify({
                 'status': 'failed',
                 'output': f'ERROR: {str(e)}',
                 'execution_time': 0,
                 'packet_size': 0,
                 'mode': 'PQC (MLKEM768/Kyber)',
-                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'tls_version': 'Unknown',
+                'cipher': 'Unknown',
+                'key_exchange': 'Unknown',
+                'security_level': security['level'],
+                'security_icon': security['icon'],
+                'security_color': security['color']
             })
 
 
@@ -404,22 +418,36 @@ def run_hybrid():
             })
             
         except FileNotFoundError:
+            security = get_security_level('hybrid')
             return jsonify({
                 'status': 'failed',
                 'output': 'ERROR: OpenSSL with OQS support not found.\n\nYou need OQS-enabled OpenSSL for Hybrid Cryptography.\n\nInstallation:\n  See: https://github.com/open-quantum-safe/openssl\n  Or use the setup script: ./scripts/setup_oqs.sh',
                 'mode': 'Hybrid (X25519 + MLKEM768)',
                 'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
                 'execution_time': 0,
-                'packet_size': 0
+                'packet_size': 0,
+                'tls_version': 'Unknown',
+                'cipher': 'Unknown',
+                'key_exchange': 'Unknown',
+                'security_level': security['level'],
+                'security_icon': security['icon'],
+                'security_color': security['color']
             })
         except Exception as e:
+            security = get_security_level('hybrid')
             return jsonify({
                 'status': 'failed',
                 'output': f'ERROR: {str(e)}',
                 'execution_time': 0,
                 'packet_size': 0,
                 'mode': 'Hybrid (X25519 + MLKEM768)',
-                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+                'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'),
+                'tls_version': 'Unknown',
+                'cipher': 'Unknown',
+                'key_exchange': 'Unknown',
+                'security_level': security['level'],
+                'security_icon': security['icon'],
+                'security_color': security['color']
             })
 
 
