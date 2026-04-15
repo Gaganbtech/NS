@@ -23,7 +23,7 @@ while true; do
     echo ""
     
     # Start server and capture output
-    timeout 10 openssl s_server \
+    openssl s_server \
         -accept 4433 \
         -cert certs/server.crt \
         -key certs/server.key \
