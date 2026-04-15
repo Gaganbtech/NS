@@ -293,11 +293,11 @@ function updateCharts() {
     ];
     sizeChart.update();
     
-    // Update security chart (show count of tests run)
+    // Update security chart (show security scores: RSA=1, PQC=2, Hybrid=3)
     const securityData = [
-        testResults.rsa ? 1 : 0,
-        testResults.pqc ? 1 : 0,
-        testResults.hybrid ? 1 : 0
+        testResults.rsa ? 1 : 0,    // RSA = Medium (1 point)
+        testResults.pqc ? 2 : 0,    // PQC = High (2 points)
+        testResults.hybrid ? 3 : 0  // Hybrid = Very High (3 points)
     ];
     securityChart.data.datasets[0].data = securityData;
     securityChart.update();
